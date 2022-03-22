@@ -1,0 +1,81 @@
+FetchData.java 
+==========================================================================
+
+package com.CovidDataBases;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class FetchData {
+
+public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("org.postgresql.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/niharika","postgres","root");
+		PreparedStatement stmt=conn.prepareStatement("SELECT * from latestData");
+		
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			System.out.println((rs.getString(1))+"   "
+					+ "   "+(rs.getString(2))+"   "+
+					(rs.getString(4))+"   "+(rs.getString(5))+"   "+
+					(rs.getString(6))+"   "+(rs.getString(7))+"   "+(rs.getString(8)));
+		}
+		
+		conn.close();
+		System.out.println();
+		System.out.println( "Fetch data Successfully.....");
+	}
+	
+	}
+  
+  
+  --------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+Databases.java
+=========================================
+
+package com.CovidDataBases;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+public class Databases {
+	
+	
+
+	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
+		Class.forName("org.postgresql.Driver");
+		Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost/niharika","postgres","root");
+		PreparedStatement stmt=conn.prepareStatement("SELECT location, Count(total_cases ) FROM latestData WHERE total_cases> 1000 GROUP BY location,total_cases ORDER BY total_cases;");
+		
+		
+		ResultSet rs = stmt.executeQuery();
+		while(rs.next()) {
+			System.out.println((rs.getString(1)+"  "+(rs.getString(2))));
+		}
+		
+		conn.close();
+		System.out.println();
+		System.out.println( "Execute Query Data  Successfully");
+	}
+	
+	}
+  
+  
+  
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------
+  
+  
+  
